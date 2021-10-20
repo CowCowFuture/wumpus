@@ -52,7 +52,17 @@ fn main() {
             if &input == dir {
                 arrow_count -= 1;
                 if player_shoot(player_pos, wumpus_pos, &input) {
-                    println!("🎉You killed the Wumpus!🎉");
+                    println!("__   __            _    _ _ _          _   _   _");
+                    println!("\\ \\ / /__  _   _  | | _(_) | | ___  __| | | |_| |__   ___ ");
+                    println!(" \\ V / _ \\| | | | | |/ / | | |/ _ \\/ _` | | __| '_ \\ / _ \\");
+                    println!("  | | (_) | |_| | |   <| | | |  __/ (_| | | |_| | | |  __/");
+                    println!("  |_|\\___/ \\__,_| |_|\\_\\_|_|_|\\___|\\__,_|  \\__|_| |_|\\___|");
+                    println!("");
+                    println!("\\ \\      / /   _ _ __ ___  _ __  _   _ ___| |");
+                    println!(" \\ \\ /\\ / / | | | '_ ` _ \\| '_ \\| | | / __| |");
+                    println!("  \\ V  V /| |_| | | | | | | |_) | |_| \\__ \\_|");
+                    println!("   \\_/\\_/  \\__,_|_| |_| |_| .__/ \\__,_|___(_)");
+                    println!("                          |_|                "); /* Should print "You killed the Wumpus!" in large text */
                     game_loop = false;
                 }
                 else { println!("You missed!"); }

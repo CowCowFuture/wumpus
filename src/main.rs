@@ -8,11 +8,14 @@ const MIN_WID: i8 = 0;
 const MAX_WID: i8 = 5;
 
 fn main() {
+    let mut input: String;
     let mut game_loop = true;
     let mut player_pos = [rand::thread_rng().gen_range(MIN_LEN..MAX_LEN), rand::thread_rng().gen_range(MIN_WID..MAX_WID)];
     let mut arrow_count = 5;
 
     let wumpus_pos = [rand::thread_rng().gen_range(MIN_LEN..MAX_LEN), rand::thread_rng().gen_range(MIN_WID..MAX_WID)];
+    let bat_pos = [rand::thread_rng().gen_range(MIN_LEN..MAX_LEN), rand::thread_rng().gen_range(MIN_WID..MAX_WID)];
+    // let bat_pos = [0, 0];
     println!("-------------------------------------------------");
     println!("Use [WASD] to walk.");
     println!("Use [UHJK] to shoot.");
@@ -25,7 +28,18 @@ fn main() {
     while game_loop {
         // Print Stats
         // println!("wu: {}, {}", wumpus_pos[0], wumpus_pos[1]);
-        
+        input = special::read(String::new());
+        for mov in input.chars() {
+            player_pos = player_move(player_pos, &String::from(mov));
+            if animal_action(wumpus_pos, player_pos) {
+                println!("You were eaten by the Wumpus!");
+                game_loop = false;
+            }
+            if animal_action(bat_pos, player_pos) {
+                println!("A bat carried you away.");
+                player_pos = [rand::thread_rng().gen_range(MIN_LEN..MAX_LEN), rand::thread_rng().gen_range(MIN_WID..MAX_WID)];
+            }
+        }
 
         println!("------------------------");
         println!("You have {} arrows left.", arrow_count);
@@ -35,21 +49,11 @@ fn main() {
         if smell_animal(wumpus_pos, player_pos) {
             println!("I smell a Wumpus...");
         }
-        
-        let mut input = String::new();
-        input = special::read(input);
 
         if input == "q" {
             game_loop = false;
         }
         
-        for mov in input.chars() {
-            player_pos = player_move(player_pos, &String::from(mov));
-            if animal_eat(wumpus_pos, player_pos) {
-                println!("You were eaten by the Wumpus!");
-                game_loop = false;
-            }
-        }
         
         for dir in ["u", "h", "j", "k"] {
             if &input == dir {
@@ -71,7 +75,10 @@ fn main() {
                 else { println!("You missed!"); }
             }
         }
-        if arrow_count <= 0 { game_loop = false; }
+        if arrow_count <= 0 {
+            println!("You ran out of arrows!");
+            game_loop = false;
+        }
         
     }
 }
@@ -139,13 +146,13 @@ fn player_shoot(start_position: [i8; 2], target_position: [i8; 2], direction: &S
     return hit_wumpus;
 }
 
-fn animal_eat(animal_position: [i8; 2], player_position: [i8; 2]) -> bool {
-    let eaten: bool;
+fn animal_action(animal_position: [i8; 2], player_position: [i8; 2]) -> bool {
+    let action: bool;
 
-    if animal_position == player_position { eaten = true; }
-    else { eaten = false; }
+    if animal_position == player_position { action = true; }
+    else { action = false; }
 
-    return eaten;
+    return action;
 }
 
 fn smell_animal(animal_position: [i8; 2], player_position: [i8; 2]) -> bool {

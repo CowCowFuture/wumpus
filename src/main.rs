@@ -68,12 +68,14 @@ fn player_move(mut position: [i8; 2], direction: &String) -> [i8; 2] {
     if direction == "a" { position[0]-=1; }
     if direction == "s" { position[1]-=1; }
     if direction == "d" { position[0]+=1; }
+    
     let tempx = position[0];
     let tempy = position[1];
     position[0] = special::clamp(position[0], MIN_LEN, MAX_LEN);
     position[1] = special::clamp(position[1], MIN_WID, MAX_WID);
     position = [position[0], position[1]];
-    if tempx != position[0] || tempy != position[1] { println!("You've bumped into a wall!"); }
+    
+    if (tempx != position[0]) || (tempy != position[1]) { println!("You've bumped into a wall!"); }
 
     return position;
 }

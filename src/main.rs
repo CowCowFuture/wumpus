@@ -9,7 +9,7 @@ const MAX_WID: i8 = 5;
 
 fn main() {
     let mut game_loop = true;
-    let mut player_pos = [0, 0];
+    let mut player_pos = [rand::thread_rng().gen_range(MIN_LEN..MAX_LEN), rand::thread_rng().gen_range(MIN_WID..MAX_WID)];
     let mut arrow_count = 5;
 
     let wumpus_pos = [rand::thread_rng().gen_range(MIN_LEN..MAX_LEN), rand::thread_rng().gen_range(MIN_WID..MAX_WID)];
@@ -29,10 +29,10 @@ fn main() {
         let mut input = String::new();
         input = special::read(input);
 
-        println!("----------");
-        println!("Arrows: {}", arrow_count);
-        println!("{}, {}", player_pos[0], player_pos[1]);
-        println!("----------");
+        println!("------------------------");
+        println!("You have {} arrows left.", arrow_count);
+        println!("You are at {}, {}.", player_pos[0], player_pos[1]);
+        println!("------------------------");
         
         if smell_animal(wumpus_pos, player_pos) {
             println!("I smell a Wumpus...");
@@ -74,7 +74,7 @@ fn player_move(mut position: [i8; 2], direction: &String) -> [i8; 2] {
     position[0] = special::clamp(position[0], MIN_LEN, MAX_LEN);
     position[1] = special::clamp(position[1], MIN_WID, MAX_WID);
     position = [position[0], position[1]];
-    
+
     if (tempx != position[0]) || (tempy != position[1]) { println!("You've bumped into a wall!"); }
 
     return position;

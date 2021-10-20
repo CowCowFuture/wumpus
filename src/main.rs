@@ -12,7 +12,6 @@ fn main() {
     let mut player_pos = [0, 0];
 
     let wumpus_pos = [rand::thread_rng().gen_range(MIN_LEN..MAX_LEN), rand::thread_rng().gen_range(MIN_WID..MAX_WID)];
-    println!("{}, {}", wumpus_pos[0], wumpus_pos[1]);
 
     while game_loop {
         let mut input = String::new();

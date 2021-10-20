@@ -10,8 +10,12 @@ const MAX_WID: i8 = 3;
 fn main() {
     let mut game_loop = true;
     let mut player_pos = [0, 0];
+    let mut arrow_count = 5;
 
     let wumpus_pos = [rand::thread_rng().gen_range(MIN_LEN..MAX_LEN), rand::thread_rng().gen_range(MIN_WID..MAX_WID)];
+
+    println!("Arrows: {}", arrow_count);
+    println!("{}, {}", player_pos[0], player_pos[1]);
 
     while game_loop {
         let mut input = String::new();
@@ -25,6 +29,7 @@ fn main() {
         
         for dir in ["u", "h", "j", "k"] {
             if &input == dir {
+                arrow_count -= 1;
                 if player_shoot(player_pos, wumpus_pos, &input) {
                     println!("You hit a Wumpus!");
                     game_loop = false;
@@ -32,7 +37,10 @@ fn main() {
                 else { println!("You missed!"); }
             }
         }
+        if arrow_count <= 0 { game_loop = false; }
         
+        // Print Stats
+        println!("Arrows: {}", arrow_count);
         println!("{}, {}", player_pos[0], player_pos[1]);
 
     }

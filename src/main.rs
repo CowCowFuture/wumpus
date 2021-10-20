@@ -25,10 +25,7 @@ fn main() {
     while game_loop {
         // Print Stats
         // println!("wu: {}, {}", wumpus_pos[0], wumpus_pos[1]);
-        if animal_eat(wumpus_pos, player_pos) {
-            println!("You were eaten by the Wumpus!");
-            game_loop = false;
-        }
+        
 
         println!("------------------------");
         println!("You have {} arrows left.", arrow_count);
@@ -46,7 +43,13 @@ fn main() {
             game_loop = false;
         }
         
-        player_pos = player_move(player_pos, &input);
+        for mov in input.chars() {
+            player_pos = player_move(player_pos, &String::from(mov));
+            if animal_eat(wumpus_pos, player_pos) {
+                println!("You were eaten by the Wumpus!");
+                game_loop = false;
+            }
+        }
         
         for dir in ["u", "h", "j", "k"] {
             if &input == dir {
@@ -78,6 +81,13 @@ fn player_move(mut position: [i8; 2], direction: &String) -> [i8; 2] {
     if direction == "a" { position[0]-=1; }
     if direction == "s" { position[1]-=1; }
     if direction == "d" { position[0]+=1; }
+
+    // for movement in direction.chars() {
+    //     if movement == 'w' { position[1]+=1; }
+    //     if movement == 'a' { position[0]-=1; }
+    //     if movement == 's' { position[1]-=1; }
+    //     if movement == 'd' { position[0]+=1; }
+    // }
     
     let tempx = position[0];
     let tempy = position[1];

@@ -3,9 +3,9 @@ use rand::Rng;
 mod special;
 
 const MIN_LEN: i8 = 0;
-const MAX_LEN: i8 = 3;
+const MAX_LEN: i8 = 5;
 const MIN_WID: i8 = 0;
-const MAX_WID: i8 = 3;
+const MAX_WID: i8 = 5;
 
 fn main() {
     let mut game_loop = true;
@@ -14,10 +14,11 @@ fn main() {
 
     let wumpus_pos = [rand::thread_rng().gen_range(MIN_LEN..MAX_LEN), rand::thread_rng().gen_range(MIN_WID..MAX_WID)];
 
-    println!("Arrows: {}", arrow_count);
-    println!("{}, {}", player_pos[0], player_pos[1]);
-
     while game_loop {
+        // Print Stats
+        println!("Arrows: {}", arrow_count);
+        println!("{}, {}", player_pos[0], player_pos[1]);
+
         let mut input = String::new();
         input = special::read(input);
 
@@ -26,6 +27,12 @@ fn main() {
         }
 
         player_pos = player_move(player_pos, &input);
+        if animal_eat(wumpus_pos, player_pos) {
+            println!("You were eaten by the Wumpus!");
+            game_loop = false;
+        }
+        // println!("Player: {}, {}", player_pos[0], player_pos[1]);
+        // println!("Animal: {}, {}", wumpus_pos[0], wumpus_pos[1]);
         
         for dir in ["u", "h", "j", "k"] {
             if &input == dir {
@@ -38,10 +45,6 @@ fn main() {
             }
         }
         if arrow_count <= 0 { game_loop = false; }
-        
-        // Print Stats
-        println!("Arrows: {}", arrow_count);
-        println!("{}, {}", player_pos[0], player_pos[1]);
 
     }
 }
@@ -98,4 +101,13 @@ fn player_shoot(start_position: [i8; 2], target_position: [i8; 2], direction: &S
     }
 
     return hit_wumpus;
+}
+
+fn animal_eat(animal_position: [i8; 2], player_position: [i8; 2]) -> bool {
+    let eaten: bool;
+
+    if animal_position == player_position { eaten = true; }
+    else { eaten = false; }
+
+    return eaten;
 }

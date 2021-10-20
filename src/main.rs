@@ -1,3 +1,5 @@
+use rand::Rng;
+
 mod special;
 
 const MIN_LEN: i8 = -8;
@@ -9,7 +11,8 @@ fn main() {
     let mut game_loop = true;
     let mut player_pos = [0, 0];
 
-    let wumpus_pos = [0, 0];
+    let wumpus_pos = [rand::thread_rng().gen_range(MIN_LEN..MAX_LEN), rand::thread_rng().gen_range(MIN_WID..MAX_WID)];
+    println!("{}, {}", wumpus_pos[0], wumpus_pos[1]);
 
     while game_loop {
         let mut input = String::new();
@@ -23,7 +26,10 @@ fn main() {
         
         for dir in ["u", "h", "j", "k"] {
             if &input == dir {
-                if player_shoot(player_pos, wumpus_pos, &input) { println!("You hit a Wumpus!"); }
+                if player_shoot(player_pos, wumpus_pos, &input) {
+                    println!("You hit a Wumpus!");
+                    game_loop = false;
+                }
                 else { println!("You missed!"); }
             }
         }

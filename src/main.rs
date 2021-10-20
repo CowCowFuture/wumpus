@@ -2,10 +2,10 @@ use rand::Rng;
 
 mod special;
 
-const MIN_LEN: i8 = -8;
-const MAX_LEN: i8 = 8;
-const MIN_WID: i8 = -8;
-const MAX_WID: i8 = 8;
+const MIN_LEN: i8 = 0;
+const MAX_LEN: i8 = 3;
+const MIN_WID: i8 = 0;
+const MAX_WID: i8 = 3;
 
 fn main() {
     let mut game_loop = true;

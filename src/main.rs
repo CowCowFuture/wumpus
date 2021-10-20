@@ -18,6 +18,7 @@ fn main() {
         // Print Stats
         println!("Arrows: {}", arrow_count);
         println!("{}, {}", player_pos[0], player_pos[1]);
+        // println!("wu: {}, {}", wumpus_pos[0], wumpus_pos[1]);
 
         let mut input = String::new();
         input = special::read(input);
@@ -31,8 +32,9 @@ fn main() {
             println!("You were eaten by the Wumpus!");
             game_loop = false;
         }
-        // println!("Player: {}, {}", player_pos[0], player_pos[1]);
-        // println!("Animal: {}, {}", wumpus_pos[0], wumpus_pos[1]);
+        if smell_animal(wumpus_pos, player_pos) {
+            println!("I smell a Wumpus...");
+        }
         
         for dir in ["u", "h", "j", "k"] {
             if &input == dir {
@@ -110,4 +112,31 @@ fn animal_eat(animal_position: [i8; 2], player_position: [i8; 2]) -> bool {
     else { eaten = false; }
 
     return eaten;
+}
+
+fn smell_animal(animal_position: [i8; 2], player_position: [i8; 2]) -> bool {
+    let is_nearby: bool;
+    let mut x = 0;
+    let mut y = 0;
+
+    for point in (player_position[0]-1)..(player_position[0]+2) {
+        // println!("{}", point);
+        if animal_position[0] == point {
+            x = point;
+        }
+    }
+
+    for point in (player_position[1]-1)..(player_position[1]+2) {
+        // println!("{}", point);
+        if animal_position[1] == point {
+            y = point;
+        }
+    }
+
+    if [x, y] == animal_position { is_nearby = true; }
+    else { is_nearby = false }
+
+    // println!("{}", is_nearby);
+
+    return is_nearby;
 }

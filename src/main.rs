@@ -2,8 +2,7 @@ mod clamp;
 
 fn main() {
     let mut game_loop = true;
-    let mut posx: i8 = 0;
-    let mut posy: i8 = 0;
+    let mut player_pos = [0, 0];
 
     while game_loop {
         let mut input = String::new();
@@ -12,17 +11,10 @@ fn main() {
         if input == "q" {
             game_loop = false;
         }
-        if input == "w" { posy+=1; }
-        if input == "a" { posx-=1; }
-        if input == "s" { posy-=1; }
-        if input == "d" { posx+=1; }
-        let tempx = posx;
-        let tempy = posy;
-        posx = clamp::clamp(posx, -8, 8);
-        posy = clamp::clamp(posy, -8, 8);
-        if tempx != posx { println!("You've bumped into a wall!"); }
-        if tempy != posy { println!("You've bumped into a wall!"); }
-        println!("{}, {}", posx, posy);
+
+        player_pos = player_move(player_pos, input);
+        
+        println!("{}, {}", player_pos[0], player_pos[1]);
 
     }
 }
@@ -33,4 +25,19 @@ fn spec_read(mut string: String) -> String {
     string = string.to_lowercase();
 
     return string;
+}
+
+fn player_move(mut position: [i8; 2], direction: String) -> [i8; 2] {
+    if direction == "w" { position[1]+=1; }
+    if direction == "a" { position[0]-=1; }
+    if direction == "s" { position[1]-=1; }
+    if direction == "d" { position[0]+=1; }
+    let tempx = position[0];
+    let tempy = position[1];
+    position[0] = clamp::clamp(position[0], -8, 8);
+    position[1] = clamp::clamp(position[1], -8, 8);
+    position = [position[0], position[1]];
+    if tempx != position[0] || tempy != position[1] { println!("You've bumped into a wall!"); }
+
+    return position;
 }

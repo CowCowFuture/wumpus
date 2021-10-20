@@ -28,13 +28,14 @@ fn main() {
         println!("{}, {}", player_pos[0], player_pos[1]);
         println!("----------");
 
+        if smell_animal(wumpus_pos, player_pos) {
+            println!("I smell a Wumpus...");
+        }
         if animal_eat(wumpus_pos, player_pos) {
             println!("You were eaten by the Wumpus!");
             game_loop = false;
         }
-        if smell_animal(wumpus_pos, player_pos) {
-            println!("I smell a Wumpus...");
-        }
+        
         // println!("wu: {}, {}", wumpus_pos[0], wumpus_pos[1]);
 
         let mut input = String::new();

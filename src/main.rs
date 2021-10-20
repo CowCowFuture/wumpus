@@ -29,9 +29,6 @@ fn main() {
             println!("You were eaten by the Wumpus!");
             game_loop = false;
         }
-        
-        let mut input = String::new();
-        input = special::read(input);
 
         println!("------------------------");
         println!("You have {} arrows left.", arrow_count);
@@ -42,6 +39,9 @@ fn main() {
             println!("I smell a Wumpus...");
         }
         
+        let mut input = String::new();
+        input = special::read(input);
+
         if input == "q" {
             game_loop = false;
         }

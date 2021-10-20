@@ -25,6 +25,10 @@ fn main() {
     while game_loop {
         // Print Stats
         // println!("wu: {}, {}", wumpus_pos[0], wumpus_pos[1]);
+        if animal_eat(wumpus_pos, player_pos) {
+            println!("You were eaten by the Wumpus!");
+            game_loop = false;
+        }
         
         let mut input = String::new();
         input = special::read(input);
@@ -36,10 +40,6 @@ fn main() {
         
         if smell_animal(wumpus_pos, player_pos) {
             println!("I smell a Wumpus...");
-        }
-        if animal_eat(wumpus_pos, player_pos) {
-            println!("You were eaten by the Wumpus!");
-            game_loop = false;
         }
         
         if input == "q" {

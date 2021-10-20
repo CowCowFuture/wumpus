@@ -18,16 +18,22 @@ fn main() {
     println!("Use [UHJK] to shoot.");
     println!("When the Wumpus is nearby you will get a message.");
     println!("Don't run out of arrows!");
+    println!("Press enter to begin!");
     println!("-------------------------------------------------");
     println!("");
 
     while game_loop {
         // Print Stats
+        // println!("wu: {}, {}", wumpus_pos[0], wumpus_pos[1]);
+        
+        let mut input = String::new();
+        input = special::read(input);
+
         println!("----------");
         println!("Arrows: {}", arrow_count);
         println!("{}, {}", player_pos[0], player_pos[1]);
         println!("----------");
-
+        
         if smell_animal(wumpus_pos, player_pos) {
             println!("I smell a Wumpus...");
         }
@@ -36,29 +42,24 @@ fn main() {
             game_loop = false;
         }
         
-        // println!("wu: {}, {}", wumpus_pos[0], wumpus_pos[1]);
-
-        let mut input = String::new();
-        input = special::read(input);
-
         if input == "q" {
             game_loop = false;
         }
-
+        
         player_pos = player_move(player_pos, &input);
         
         for dir in ["u", "h", "j", "k"] {
             if &input == dir {
                 arrow_count -= 1;
                 if player_shoot(player_pos, wumpus_pos, &input) {
-                    println!("You hit a Wumpus!");
+                    println!("🎉You killed the Wumpus!🎉");
                     game_loop = false;
                 }
                 else { println!("You missed!"); }
             }
         }
         if arrow_count <= 0 { game_loop = false; }
-
+        
     }
 }
 

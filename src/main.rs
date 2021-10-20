@@ -1,4 +1,4 @@
-use num::clamp;
+mod clamp;
 
 fn main() {
     let mut game_loop = true;
@@ -18,8 +18,8 @@ fn main() {
         if input == "d" { posx+=1; }
         let tempx = posx;
         let tempy = posy;
-        posx = clamp(posx, -8, 8);
-        posy = clamp(posy, -8, 8);
+        posx = clamp::clamp(posx, -8, 8);
+        posy = clamp::clamp(posy, -8, 8);
         if tempx != posx { println!("You've bumped into a wall!"); }
         if tempy != posy { println!("You've bumped into a wall!"); }
         println!("{}, {}", posx, posy);

@@ -13,11 +13,28 @@ fn main() {
     let mut arrow_count = 5;
 
     let wumpus_pos = [rand::thread_rng().gen_range(MIN_LEN..MAX_LEN), rand::thread_rng().gen_range(MIN_WID..MAX_WID)];
+    println!("-------------------------------------------------");
+    println!("Use [WASD] to walk.");
+    println!("Use [UHJK] to shoot.");
+    println!("When the Wumpus is nearby you will get a message.");
+    println!("Don't run out of arrows!");
+    println!("-------------------------------------------------");
+    println!("");
 
     while game_loop {
         // Print Stats
+        println!("----------");
         println!("Arrows: {}", arrow_count);
         println!("{}, {}", player_pos[0], player_pos[1]);
+        println!("----------");
+
+        if animal_eat(wumpus_pos, player_pos) {
+            println!("You were eaten by the Wumpus!");
+            game_loop = false;
+        }
+        if smell_animal(wumpus_pos, player_pos) {
+            println!("I smell a Wumpus...");
+        }
         // println!("wu: {}, {}", wumpus_pos[0], wumpus_pos[1]);
 
         let mut input = String::new();
@@ -28,13 +45,6 @@ fn main() {
         }
 
         player_pos = player_move(player_pos, &input);
-        if animal_eat(wumpus_pos, player_pos) {
-            println!("You were eaten by the Wumpus!");
-            game_loop = false;
-        }
-        if smell_animal(wumpus_pos, player_pos) {
-            println!("I smell a Wumpus...");
-        }
         
         for dir in ["u", "h", "j", "k"] {
             if &input == dir {

@@ -28,7 +28,12 @@ fn main() {
     while game_loop {
         // Print Stats
         // println!("wu: {}, {}", wumpus_pos[0], wumpus_pos[1]);
+        print!("\x1bc"); // Clear the screen every turn
         input = special::read(String::new());
+        println!("------------------------");
+        println!("You have {} arrows left.", arrow_count);
+        println!("You are at {}, {}.", player_pos[0], player_pos[1]);
+        println!("------------------------");
         for mov in input.chars() {
             player_pos = player_move(player_pos, &String::from(mov));
             if animal_action(wumpus_pos, player_pos) {
@@ -41,11 +46,6 @@ fn main() {
             }
         }
 
-        println!("------------------------");
-        println!("You have {} arrows left.", arrow_count);
-        println!("You are at {}, {}.", player_pos[0], player_pos[1]);
-        println!("------------------------");
-        
         if smell_animal(wumpus_pos, player_pos) {
             println!("I smell a Wumpus...");
         }
